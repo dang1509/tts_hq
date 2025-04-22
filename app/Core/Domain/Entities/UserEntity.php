@@ -9,6 +9,7 @@ class UserEntity
     public string $username;
     public ?string $fullname;
     public int $account_type;
+    public ?string $phonenumber;
     public ?string $email;
     public ?string $email_verified_at;
     public ?string $password;
@@ -30,6 +31,7 @@ class UserEntity
         $this->username = $data['username'];
         $this->fullname = $data['fullname'] ?? null;
         $this->account_type = $data['account_type'] ?? 1;
+        $this->phonenumber = $data['phonenumber'] ?? null;
         $this->email = $data['email']??null;
         $this->email_verified_at = $data['email_verified_at'] ?? null;
         $this->password = $data['password']??null;

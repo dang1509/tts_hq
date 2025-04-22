@@ -11,6 +11,7 @@ use App\Core\Application\Services\ProfileService;
 use App\Core\Application\Services\ActivityLogService;
 use Illuminate\Support\Facades\Auth; 
 use App\Infrastructure\Persistence\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -39,8 +40,45 @@ class ProfileController extends Controller
 	}
     public function getProfile(Request $request){
         $this->activity_log_service->add('Truy cập trang thông tin profile');
-        return view('admin.profile.index')->with('page_breadcrumbs',$this->page_breadcrumbs);
+        $user = Auth::user();
+        return view('admin.profile.index',compact('user'))->with('page_breadcrumbs',$this->page_breadcrumbs);
     }
+    public function updateProfile(Request $request){
+        $this->activity_log_service->add('Chỉnh sửa trang thông tin profile');
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+    
+        $user = Auth::user();
+    
+        // Cập nhật tên
+        $user->fullname = $request->fullname;
+    
+        // Cập nhật ảnh
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+        
+            // Xóa ảnh cũ nếu có
+            if ($user->avatar && file_exists(public_path($user->avatar))) {
+                unlink(public_path($user->avatar));
+            }
+        
+            // Tạo tên file mới
+            $filename = time() . '_' . $file->getClientOriginalName();
+        
+            // Di chuyển ảnh vào thư mục public/uploads
+            $file->move(public_path('uploads'), $filename);
+        
+            // Lưu đường dẫn vào DB (để dùng asset() khi hiển thị)
+            $user->avatar = 'uploads/' . $filename;
+        }
+    
+        $user->save();
+    
+        return back()->with('success', 'Cập nhật thông tin cá nhân thành công!');
+    }
+
     /**
      * Thay doi mat khau
      *

@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Interfaces\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Core\Domain\Entities\UserEntity;
+use App\Interfaces\Http\Controllers\Controller;
+use App\Interfaces\Http\Requests\Auth\ForgotPasswordRequest;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Core\Application\Services\AuthService;
+use App\Core\Application\Services\OtpService;
 
 class ForgotPasswordController extends Controller
 {
@@ -17,6 +21,28 @@ class ForgotPasswordController extends Controller
     | your application to your users. Feel free to explore this trait.
     |
     */
+    protected AuthService $authService;
+    protected OtpService $OtpService;
+    public function __construct(
+        OtpService $OtpService
+    ) {
+        $this->OtpService = $OtpService;
+        $this->middleware('guest');
+    }
 
-    use SendsPasswordResetEmails;
+    public function showFormForgot(){
+         return view('admin.auth.passwords.email');
+    }
+    public function checkForm(ForgotPasswordRequest $request){
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+         
+        $email = $request->email;
+        $status = "reset";
+        $this->OtpService->sendOtp($email, $status);
+        session(['otp_user_email' => $email]);
+        return redirect()->route("admin.otp.verify.form")->with("success", "Một mã OTP đã được gửi tới email của bạn");
+
+    }
 }

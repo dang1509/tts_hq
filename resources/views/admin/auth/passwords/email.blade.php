@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.auth.layouts.app')
 
 @section('content')
 <div class="container">
@@ -14,9 +14,10 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('admin.forgot.password.check')}}">
                         @csrf
-
+                        
+                        
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 

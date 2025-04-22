@@ -16,255 +16,382 @@ class Menu
      *
      * @return string
      */
+    // public static function renderVerMenu($item, $parent = null, $rec = 0, $singleItem = false)
+    // {
+    //     self::checkRecursion($rec);
+    //     if (!$item) {;
+    //         return 'menu misconfiguration';
+    //     }
+
+    //     if (isset($item['separator'])) {
+    //         echo '<li class="menu-separator"><span></span></li>';
+    //     }
+    //     elseif (isset($item['section'])) {
+    //         if(isset($item['permission'])){
+    //             if(Auth::user()->hasRole('admin')){
+
+    //             }
+    //             else{
+
+    //                 $permission = explode(',',$item['permission']);
+    //                 foreach($permission as $item_p){
+    //                     if(Auth::user()->can($item_p)){
+    //                         $i = 1;
+    //                         break;
+    //                     }
+    //                     else{
+    //                         $i = 0;
+    //                     }
+    //                 }
+    //                 if($i == 0){
+    //                     return;
+    //                 }
+    //                 else{
+
+    //                 }
+    //             }
+    //         }
+    //         else{
+    //             if(Auth::user()->hasRole('admin')){
+
+    //             }
+    //             else{
+    //                 return;
+    //             }
+    //         }
+    //         echo '<li class="menu-section ' . ($rec === 0 ? 'menu-section--first' : '') . '">
+    //                 <h4 class="menu-text">' . $item['section'] . '</h4>
+    //                     <i class="menu-icon flaticon-more-v2"></i>
+    //                 </li>';
+
+    //     }
+    //     elseif (isset($item['title'])) {
+    //         if(isset($item['permission'])){
+    //             if(Auth::user()->hasRole('admin')){
+
+    //             }
+    //             else{
+    //                 $permission = explode(',',$item['permission']);
+    //                 foreach($permission as $item_p){
+    //                     if(Auth::user()->can($item_p)){
+    //                         $i = 1;
+    //                         break;
+    //                     }
+    //                     else{
+    //                         $i = 0;
+    //                     }
+    //                 }
+    //                 if($i == 0){
+    //                     return;
+    //                 }
+    //                 else{
+
+    //                 }
+    //             }
+    //         }
+    //         else{
+    //             if(Auth::user()->hasRole('admin')){
+
+    //             }
+    //             else{
+    //                 return;
+    //             }
+    //         }
+    //         $item_class = '';
+    //         $item_attr = '';
+
+    //         if (isset($item['submenu'])) {
+    //             $item_class .= ' menu-item-submenu'; 
+    //             if (isset($item['toggle']) && $item['toggle'] == 'click') {
+    //                 $item_attr .= ' data-menu-toggle="click"';
+    //             } else {
+    //                 $item_attr .= ' data-menu-toggle="hover"';
+    //             }
+
+    //             if (isset($item['mode'])) {
+    //                 $item_attr .= ' data-menu-mode="' . $item['mode'] . '"';
+    //             }
+
+    //             if (isset($item['dropdown-toggle-class'])) {
+    //                 $item_attr .= ' data-menu-toggle-class="' . $item['dropdown-toggle-class'] . '"';
+    //             }
+    //         }
+
+    //         if (@$item['redirect'] === true) {
+    //             $item_attr .= ' data-menu-redirect="1"';
+    //         }
+
+    //         // parent item for hoverable submenu
+    //         if (isset($item['parent'])) {
+    //             $item_class .= ' menu-item-parent'; // m-menu__item--active
+    //         }
+
+    //         // custom class for menu item
+    //         if (isset($item['custom-class'])) {
+    //             $item_class .= ' ' . $item['custom-class'];
+    //         }
+
+    //         if (isset($item['submenu']) && self::isActiveVerMenuItem($item, request()->path())) {
+    //             $item_class .= ' menu-item-open menu-item-here'; // m-menu__item--active
+    //         }
+    //         elseif (self::isActiveVerMenuItem($item, request()->path())) {
+    //             $item_class .= ' menu-item-active';
+    //         }
+
+    //         echo '<li class="menu-item ' . $item_class . '" aria-haspopup="true" ' . $item_attr . '>';
+    //         if (isset($item['parent'])) {
+    //             echo '<span class="menu-link">';
+    //         } else {
+    //             $url = '#';
+
+    //             if(isset($item['route']) && $item['route'] !=""){
+    //                 $url = route($item['route']);
+    //             }
+    //             else{
+    //                 if (isset($item['page'])) {
+    //                     $url = url($item['page']);
+    //                 }
+    //             }
+
+
+    //             $target = '';
+    //             if (isset($item['new-tab']) && $item['new-tab'] == true) {
+    //                 $target = 'target="_blank"';
+    //             }
+
+    //             echo '<a ' . $target . ' href="' . $url . '" class="menu-link ' . (isset($item['submenu']) ? 'menu-toggle' : '') . '">';
+    //         }
+
+    //         // Menu arrow
+    //         if (@$item['here'] === true) {
+    //             echo '<span class="menu-item-here"></span>';
+    //         }
+
+    //         // bullet
+    //         $bullet = '';
+
+    //         if ($parent != null && isset($parent['bullet']) && $parent['bullet'] == 'dot') {
+    //             $bullet = 'dot';
+    //         } elseif ($parent != null && isset($parent['bullet']) && $parent['bullet'] == 'line') {
+    //             $bullet = 'line';
+    //         }
+
+    //         // Menu icon OR bullet
+    //         if ($bullet == 'dot') {
+    //             echo '<i class="menu-bullet menu-bullet-dot"><span></span></i>';
+    //         } elseif ($bullet == 'line') {
+    //             echo '<i class="menu-bullet menu-bullet-line"><span></span></i>';
+    //         } elseif (config('layout.aside.menu.hide-root-icons') !== true && isset($item['icon']) && !empty($item['icon'])) {
+    //             self::renderIcon($item['icon']);
+    //         }
+
+    //         // Badge
+    //         echo '<span class="menu-text">' . $item['title'] . '</span>';
+    //         if (isset($item['label'])) {
+    //             echo '<span class="menu-label"><span class="label ' . $item['label']['type'] . '">' . $item['label']['value'] . '</span></span>';
+    //         }
+
+    //         if ($singleItem == true) {
+    //             if (isset($item['parent'])) {
+    //                 echo '</span>';
+    //             } else {
+    //                 echo '</a>';
+    //             }
+
+    //             echo '</li>';
+    //             return;
+    //         }
+
+    //         if (isset($item['submenu'])) {
+    //             if (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus') {
+    //                 echo '<i class="menu-arrow menu-arrow-pm"><span><span></span></span></i>';
+    //             } elseif (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus-square') {
+    //                 echo '<i class="menu-arrow menu-arrow-pm-square"><span><span></span></span></i>';
+    //             } elseif (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus-circle') {
+    //                 echo '<i class="menu-arrow menu-arrow-pm-circle"><span><span></span></span></i>';
+    //             } else {
+    //                 if (@$item['arrow'] !== false && config('layout.aside.menu.root-arrow') !== false) {
+    //                     echo '<i class="menu-arrow"></i>';
+    //                 }
+    //             }
+    //         }
+
+    //         if (isset($item['parent'])) {
+    //             echo '</span>';
+    //         } else {
+    //             echo '</a>';
+    //         }
+
+    //         if (isset($item['submenu'])) {
+    //             $submenu_dir = '';
+    //             if (isset($item['submenu-up']) && $item['submenu-up'] === true) {
+    //                 $submenu_dir = 'menu-submenu-up';
+    //             }
+    //             echo '<div class="menu-submenu ' . $submenu_dir . '">';
+    //             echo '<span class="menu-arrow"></span>';
+
+    //             if (isset($item['custom-class']) && ($item['custom-class'] === 'menu-item-submenu-stretch' || $item['custom-class'] === 'menu-item-submenu-scroll')) {
+    //                 echo '<div class="menu-wrapper">';
+    //             }
+
+    //             if (isset($item['scroll'])) {
+    //                 echo '<div class="menu-scroll" data-scroll="true" style="height: ' . $item['scroll'] . '">';
+    //             }
+
+    //             echo '<ul class="menu-subnav">';
+    //             if (isset($item['root'])) {
+    //                 $parent_item = $item;
+    //                 $parent_item['parent'] = true;
+    //                 unset($parent_item['icon']);
+    //                 unset($parent_item['submenu']);
+    //                 self::renderVerMenu($parent_item, null, $rec++, true); // single item render
+    //             }
+    //             foreach ($item['submenu'] as $submenu_item) {
+    //                 self::renderVerMenu($submenu_item, $item, $rec++);
+    //             }
+    //             echo '</ul>';
+
+    //             if (isset($item['scroll']) || isset($item['custom-class']) && $item['custom-class'] === 'menu-item-submenu-stretch') {
+    //                 echo '</div>';
+    //             }
+    //             echo '</div>';
+    //         }
+
+    //         echo '</li>';
+    //     }
+    //     else {
+    //         foreach ($item as $each) {
+    //             self::renderVerMenu($each, $parent, $rec++);
+    //         }
+    //     }
+    // }
+
     public static function renderVerMenu($item, $parent = null, $rec = 0, $singleItem = false)
-    {
-        self::checkRecursion($rec);
-        if (!$item) {;
-            return 'menu misconfiguration';
+{
+    self::checkRecursion($rec);
+
+    if (!$item) {
+        return 'menu misconfiguration';
+    }
+
+    // Nếu không phải tài khoản account_type = 1 → không render menu
+    if (!Auth::check() || Auth::user()->account_type != 1) {
+        return;
+    }
+
+    if (isset($item['separator'])) {
+        echo '<li class="menu-separator"><span></span></li>';
+    } elseif (isset($item['section'])) {
+        echo '<li class="menu-section ' . ($rec === 0 ? 'menu-section--first' : '') . '">
+                <h4 class="menu-text">' . $item['section'] . '</h4>
+                <i class="menu-icon flaticon-more-v2"></i>
+            </li>';
+    } elseif (isset($item['title'])) {
+        $item_class = '';
+        $item_attr  = '';
+
+        if (isset($item['submenu'])) {
+            $item_class .= ' menu-item-submenu';
+            $item_attr .= ' data-menu-toggle="' . ($item['toggle'] ?? 'hover') . '"';
         }
 
-        if (isset($item['separator'])) {
-            echo '<li class="menu-separator"><span></span></li>';
+        if (@$item['redirect'] === true) {
+            $item_attr .= ' data-menu-redirect="1"';
         }
-        elseif (isset($item['section'])) {
-            if(isset($item['permission'])){
-                if(Auth::user()->hasRole('admin')){
 
-                }
-                else{
-
-                    $permission = explode(',',$item['permission']);
-                    foreach($permission as $item_p){
-                        if(Auth::user()->can($item_p)){
-                            $i = 1;
-                            break;
-                        }
-                        else{
-                            $i = 0;
-                        }
-                    }
-                    if($i == 0){
-                        return;
-                    }
-                    else{
-
-                    }
-                }
-            }
-            else{
-                if(Auth::user()->hasRole('admin')){
-
-                }
-                else{
-                    return;
-                }
-            }
-            echo '<li class="menu-section ' . ($rec === 0 ? 'menu-section--first' : '') . '">
-                    <h4 class="menu-text">' . $item['section'] . '</h4>
-                        <i class="menu-icon flaticon-more-v2"></i>
-                    </li>';
-
+        if (isset($item['parent'])) {
+            $item_class .= ' menu-item-parent';
         }
-        elseif (isset($item['title'])) {
-            if(isset($item['permission'])){
-                if(Auth::user()->hasRole('admin')){
 
-                }
-                else{
-                    $permission = explode(',',$item['permission']);
-                    foreach($permission as $item_p){
-                        if(Auth::user()->can($item_p)){
-                            $i = 1;
-                            break;
-                        }
-                        else{
-                            $i = 0;
-                        }
-                    }
-                    if($i == 0){
-                        return;
-                    }
-                    else{
+        if (isset($item['custom-class'])) {
+            $item_class .= ' ' . $item['custom-class'];
+        }
 
-                    }
-                }
-            }
-            else{
-                if(Auth::user()->hasRole('admin')){
+        if (isset($item['submenu']) && self::isActiveVerMenuItem($item, request()->path())) {
+            $item_class .= ' menu-item-open menu-item-here';
+        } elseif (self::isActiveVerMenuItem($item, request()->path())) {
+            $item_class .= ' menu-item-active';
+        }
 
-                }
-                else{
-                    return;
-                }
-            }
-            $item_class = '';
-            $item_attr = '';
+        echo '<li class="menu-item ' . $item_class . '" aria-haspopup="true" ' . $item_attr . '>';
 
-            if (isset($item['submenu'])) {
-                $item_class .= ' menu-item-submenu'; 
-                if (isset($item['toggle']) && $item['toggle'] == 'click') {
-                    $item_attr .= ' data-menu-toggle="click"';
-                } else {
-                    $item_attr .= ' data-menu-toggle="hover"';
-                }
+        if (isset($item['parent'])) {
+            echo '<span class="menu-link">';
+        } else {
+            $url = '#';
 
-                if (isset($item['mode'])) {
-                    $item_attr .= ' data-menu-mode="' . $item['mode'] . '"';
-                }
-
-                if (isset($item['dropdown-toggle-class'])) {
-                    $item_attr .= ' data-menu-toggle-class="' . $item['dropdown-toggle-class'] . '"';
-                }
+            if (!empty($item['route'])) {
+                $url = route($item['route']);
+            } elseif (!empty($item['page'])) {
+                $url = url($item['page']);
             }
 
-            if (@$item['redirect'] === true) {
-                $item_attr .= ' data-menu-redirect="1"';
-            }
+            $target = isset($item['new-tab']) && $item['new-tab'] ? 'target="_blank"' : '';
 
-            // parent item for hoverable submenu
-            if (isset($item['parent'])) {
-                $item_class .= ' menu-item-parent'; // m-menu__item--active
-            }
+            echo '<a ' . $target . ' href="' . $url . '" class="menu-link ' . (isset($item['submenu']) ? 'menu-toggle' : '') . '">';
+        }
 
-            // custom class for menu item
-            if (isset($item['custom-class'])) {
-                $item_class .= ' ' . $item['custom-class'];
-            }
+        if (@$item['here'] === true) {
+            echo '<span class="menu-item-here"></span>';
+        }
 
-            if (isset($item['submenu']) && self::isActiveVerMenuItem($item, request()->path())) {
-                $item_class .= ' menu-item-open menu-item-here'; // m-menu__item--active
-            }
-            elseif (self::isActiveVerMenuItem($item, request()->path())) {
-                $item_class .= ' menu-item-active';
-            }
+        // Icon
+        $bullet = $parent['bullet'] ?? null;
+        if ($bullet === 'dot') {
+            echo '<i class="menu-bullet menu-bullet-dot"><span></span></i>';
+        } elseif ($bullet === 'line') {
+            echo '<i class="menu-bullet menu-bullet-line"><span></span></i>';
+        } elseif (config('layout.aside.menu.hide-root-icons') !== true && !empty($item['icon'])) {
+            self::renderIcon($item['icon']);
+        }
 
-            echo '<li class="menu-item ' . $item_class . '" aria-haspopup="true" ' . $item_attr . '>';
-            if (isset($item['parent'])) {
-                echo '<span class="menu-link">';
-            } else {
-                $url = '#';
+        echo '<span class="menu-text">' . $item['title'] . '</span>';
 
-                if(isset($item['route']) && $item['route'] !=""){
-                    $url = route($item['route']);
-                }
-                else{
-                    if (isset($item['page'])) {
-                        $url = url($item['page']);
-                    }
-                }
+        if (isset($item['label'])) {
+            echo '<span class="menu-label"><span class="label ' . $item['label']['type'] . '">' . $item['label']['value'] . '</span></span>';
+        }
 
-
-                $target = '';
-                if (isset($item['new-tab']) && $item['new-tab'] == true) {
-                    $target = 'target="_blank"';
-                }
-
-                echo '<a ' . $target . ' href="' . $url . '" class="menu-link ' . (isset($item['submenu']) ? 'menu-toggle' : '') . '">';
-            }
-
-            // Menu arrow
-            if (@$item['here'] === true) {
-                echo '<span class="menu-item-here"></span>';
-            }
-
-            // bullet
-            $bullet = '';
-
-            if ($parent != null && isset($parent['bullet']) && $parent['bullet'] == 'dot') {
-                $bullet = 'dot';
-            } elseif ($parent != null && isset($parent['bullet']) && $parent['bullet'] == 'line') {
-                $bullet = 'line';
-            }
-
-            // Menu icon OR bullet
-            if ($bullet == 'dot') {
-                echo '<i class="menu-bullet menu-bullet-dot"><span></span></i>';
-            } elseif ($bullet == 'line') {
-                echo '<i class="menu-bullet menu-bullet-line"><span></span></i>';
-            } elseif (config('layout.aside.menu.hide-root-icons') !== true && isset($item['icon']) && !empty($item['icon'])) {
-                self::renderIcon($item['icon']);
-            }
-
-            // Badge
-            echo '<span class="menu-text">' . $item['title'] . '</span>';
-            if (isset($item['label'])) {
-                echo '<span class="menu-label"><span class="label ' . $item['label']['type'] . '">' . $item['label']['value'] . '</span></span>';
-            }
-
-            if ($singleItem == true) {
-                if (isset($item['parent'])) {
-                    echo '</span>';
-                } else {
-                    echo '</a>';
-                }
-
-                echo '</li>';
-                return;
-            }
-
-            if (isset($item['submenu'])) {
-                if (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus') {
-                    echo '<i class="menu-arrow menu-arrow-pm"><span><span></span></span></i>';
-                } elseif (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus-square') {
-                    echo '<i class="menu-arrow menu-arrow-pm-square"><span><span></span></span></i>';
-                } elseif (isset($item['root']) == false && config('layout.menu.aside.submenu.arrow') == 'plus-minus-circle') {
-                    echo '<i class="menu-arrow menu-arrow-pm-circle"><span><span></span></span></i>';
-                } else {
-                    if (@$item['arrow'] !== false && config('layout.aside.menu.root-arrow') !== false) {
-                        echo '<i class="menu-arrow"></i>';
-                    }
-                }
-            }
-
-            if (isset($item['parent'])) {
-                echo '</span>';
-            } else {
-                echo '</a>';
-            }
-
-            if (isset($item['submenu'])) {
-                $submenu_dir = '';
-                if (isset($item['submenu-up']) && $item['submenu-up'] === true) {
-                    $submenu_dir = 'menu-submenu-up';
-                }
-                echo '<div class="menu-submenu ' . $submenu_dir . '">';
-                echo '<span class="menu-arrow"></span>';
-
-                if (isset($item['custom-class']) && ($item['custom-class'] === 'menu-item-submenu-stretch' || $item['custom-class'] === 'menu-item-submenu-scroll')) {
-                    echo '<div class="menu-wrapper">';
-                }
-
-                if (isset($item['scroll'])) {
-                    echo '<div class="menu-scroll" data-scroll="true" style="height: ' . $item['scroll'] . '">';
-                }
-
-                echo '<ul class="menu-subnav">';
-                if (isset($item['root'])) {
-                    $parent_item = $item;
-                    $parent_item['parent'] = true;
-                    unset($parent_item['icon']);
-                    unset($parent_item['submenu']);
-                    self::renderVerMenu($parent_item, null, $rec++, true); // single item render
-                }
-                foreach ($item['submenu'] as $submenu_item) {
-                    self::renderVerMenu($submenu_item, $item, $rec++);
-                }
-                echo '</ul>';
-
-                if (isset($item['scroll']) || isset($item['custom-class']) && $item['custom-class'] === 'menu-item-submenu-stretch') {
-                    echo '</div>';
-                }
-                echo '</div>';
-            }
-
+        if ($singleItem) {
+            echo isset($item['parent']) ? '</span>' : '</a>';
             echo '</li>';
+            return;
         }
-        else {
-            foreach ($item as $each) {
-                self::renderVerMenu($each, $parent, $rec++);
+
+        if (isset($item['submenu'])) {
+            echo '<i class="menu-arrow"></i>';
+        }
+
+        echo isset($item['parent']) ? '</span>' : '</a>';
+
+        // Render submenu nếu có
+        if (isset($item['submenu'])) {
+            echo '<div class="menu-submenu">';
+            echo '<span class="menu-arrow"></span>';
+            echo '<ul class="menu-subnav">';
+
+            if (isset($item['root'])) {
+                $parent_item = $item;
+                $parent_item['parent'] = true;
+                unset($parent_item['icon'], $parent_item['submenu']);
+                self::renderVerMenu($parent_item, null, $rec + 1, true);
             }
+
+            foreach ($item['submenu'] as $submenu_item) {
+                self::renderVerMenu($submenu_item, $item, $rec + 1);
+            }
+
+            echo '</ul></div>';
+        }
+
+        echo '</li>';
+    } else {
+        // Nếu là mảng nhiều item cùng cấp
+        foreach ($item as $each) {
+            self::renderVerMenu($each, $parent, $rec);
         }
     }
+}
+
 
     /**
      * Header menu

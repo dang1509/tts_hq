@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\HasPermissions;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
@@ -30,6 +30,7 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
+        'status',
         'balance',
         'remember_token',
         'provider_id',

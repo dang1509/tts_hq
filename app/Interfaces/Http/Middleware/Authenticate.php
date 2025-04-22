@@ -17,8 +17,8 @@ class Authenticate extends Middleware
         if (!$request->expectsJson() && \Str::is('admin*', request()->path())) {
             return route('admin.login');
         }
-        if (!$request->expectsJson()) {
-            return route('login');
+        if (!$request->expectsJson() && \Str::is('user*',request()->path())) {
+            return route('user.login');
         }
     }
 }

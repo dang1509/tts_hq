@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 use App\Interfaces\Http\Requests\Auth\RegisterRequest;
 use App\Core\Domain\Entities\UserEntity;
 use App\Core\Application\Services\AuthService;
+use App\Core\Application\Services\OtpService;
+use App\Core\Application\Services\VerifyEmailService;
+use App\Core\Domain\UseCase\OtpUseCase;
+use App\Infrastructure\Persistence\Models\Otp;
+use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 class RegisterController extends Controller
 {
@@ -39,10 +45,14 @@ class RegisterController extends Controller
      * @return void
      */
     protected AuthService $authService;
+    protected OtpService $OtpService;
 
-    public function __construct(AuthService $authService)
-    {
+    public function __construct(
+        AuthService $authService,
+        OtpService $OtpService
+    ) {
         $this->authService = $authService;
+        $this->OtpService = $OtpService;
         $this->middleware('guest');
     }
     /**
@@ -62,10 +72,11 @@ class RegisterController extends Controller
         $data = new UserEntity($request->validated());
 
         $user = $this->authService->register($data);
-       
-        Auth::loginUsingId($user->id);
+        $status = "verifi";
+        $this->OtpService->sendOtp($user->email, $status);
+        session(['otp_user_email' => $user->email]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.otp.verify.form');
     }
 
     /**

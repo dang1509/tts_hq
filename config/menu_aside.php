@@ -31,7 +31,7 @@ return [
             'root' => true,
             'icon' => 'flaticon-user-settings', // or can be 'flaticon-home' or any flaticon-*
             'route' => 'admin.security-2fa.index',
-            'permission' =>'security-2fa',
+            'permission' =>'',
             'page' => '',
         ],
         // [
@@ -64,6 +64,13 @@ return [
             'bullet' => 'line',
             'route' => 'admin.permission.index',
             'page' => ''
+        ],
+        [
+            'title' => 'Quản lý tài khoản',
+            'icon' => 'fas fa-users-cog', // icon hiển thị
+            'route' => 'admin.customers.index', // route bạn sẽ khai báo
+            'page'  => '',
+            'new-tab' => false,
         ],
     ]
 

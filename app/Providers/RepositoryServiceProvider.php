@@ -12,6 +12,7 @@ use App\Infrastructure\Repositories\ActivityLogRespositories;
 use App\Infrastructure\Repositories\AuthRepositories;
 use App\Infrastructure\Repositories\ProfileRepositories;
 use App\Infrastructure\Repositories\PermissionRepositories;
+use App\Infrastructure\Repositories\UserRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProfileRepositoryInterface::class, ProfileRepositories::class);
         $this->app->bind(ActivityLogRepositoryInterface::class, ActivityLogRespositories::class);
         $this->app->bind(PermissionRepositoryInterface::class, PermissionRepositories::class);
+        
     }
 
     public function boot()

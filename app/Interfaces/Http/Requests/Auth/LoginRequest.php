@@ -25,6 +25,9 @@ class LoginRequest extends FormRequest
         return [
             'username' => 'required',
             'password' => 'required|min:6',
+            
+            'captcha' =>app()->environment('testing') ? '' : 'required|captcha',
+            
         ];
     }
     public function messages(): array
@@ -33,6 +36,7 @@ class LoginRequest extends FormRequest
             'username.required' => 'Tên người dùng không được để trống.',
             'password.required' => 'Mật khẩu không được để trống.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'captcha.captcha'=> 'Captcha chưa chính xác',
         ];
     }
 }

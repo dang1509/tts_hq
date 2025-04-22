@@ -32,10 +32,11 @@
                    id="email" type="email" name="email" value="{{ old('email') }}" required="required">
         </div>
 
+        
+
         <div class="mt-4">
             <label class="block font-medium text-sm text-gray-700" for="password">
                  {{ __('Password') }}
-
             </label>
             <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
                    id="password" type="password" name="password" required="required" autocomplete="new-password">

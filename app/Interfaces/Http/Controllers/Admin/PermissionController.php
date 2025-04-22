@@ -30,7 +30,7 @@ class PermissionController extends Controller
             'page' => route('admin.permission.index'),
             'title' => __("Phân quyền truy cập")
         ];
-        $this->middleware('role:admin');
+        // $this->middleware('role:admin');
     }
 
     public function index(Request $request)
