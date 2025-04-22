@@ -17,7 +17,7 @@ class MailUseCase
     {
         try {
             // Gửi email
-            Mail::to($user->email)->send(new VerifyAccountMail($user->mail));
+            Mail::to($user->email)->send(new VerifyAccountMail($user->email));
     
             // Ghi log vào bảng emails
             Email::create([

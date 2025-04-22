@@ -14,23 +14,30 @@ use Carbon\Carbon;
 
 class ResetPasswordController extends Controller
 {
-    public function showResetForm()
+    public function showResetForm(Request $request)
     {
-        $email = session('otp_user_email');
-        return view('admin.auth.passwords.reset', ['email' => $email]);
+        $email = $request->query('email');
+        $token = $request->query('token');
+
+        return view('user.auth.passwords.reset', compact('email', 'token'));
     }
 
     public function reset(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ]);
-        $email = $request->email;
-        $password = Hash::make($request->password);
-        $user = User::where("email", $email)->first();
-        $user->password = $password;
+
+
+        $user = User::where("email", $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Không tìm thấy người dùng với email này.']);
+        }
+
+        $user->password = Hash::make($request->password);
         $user->save();
+
         return redirect()->route('admin.login')->with('status', 'Mật khẩu đã được đặt lại!');
     }
 }

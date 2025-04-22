@@ -40,6 +40,6 @@ class ResetPasswordController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('user.login')->with('status', 'Mật khẩu đã được đặt lại!');
+        return redirect()->route('admin.login')->with('status', 'Mật khẩu đã được đặt lại!');
     }
 }

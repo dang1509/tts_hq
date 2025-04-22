@@ -45,11 +45,15 @@ Route::group(array('as' => 'admin.'),function(){
     Route::get('/customers',[CustomerController::class,'index'])->name('customers.index');
     Route::get('/customers/detail/{id}',[CustomerController::class,'show'])->name('customers.show');
     Route::put('/admin/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggle-status');
+    Route::post('/customers/update/',[CustomerController::class,'update'])->name('customers.update');
 
     Route::get('/forgot-password',[ForgotPasswordController::class,'showFormForgot'])->name('forgot.password.form');
     Route::post('/forgot-password',[ForgotPasswordController::class,'checkForm'])->name('forgot.password.check');
     Route::get('/reset-password', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
     Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+    Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('reset.password.form');
+
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::middleware(['auth','verified.email'])->group(function () {
@@ -78,7 +82,7 @@ Route::group(array('as' => 'admin.'),function(){
             });
             Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile');
             Route::post('/profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
-
+            
             Route::post('/change-password', [ProfileController::class, 'postChangePassword'])->name('change-password');
             Route::post('/change-password2', [ProfileController::class, 'postChangePassword2'])->name('change-password2');
             Route::get('/security-2fa',[ProfileController::class, 'get_security_2fa'])->name('security-2fa.index');

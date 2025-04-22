@@ -17,19 +17,30 @@
                     <td>{{ $value->email }}</td>
                     <td>{{ $value->account_type == 1 ? 'Admin' : 'Khách hàng' }}</td>
                     <td>
-                        <a href="{{ route('admin.customers.show', ['id' => $value->id]) }}" class="btn btn-info">Xem chi
-                            tiết</a>
+                        <div class="d-flex align-items-center gap-1">
+                            <a href="{{ route('admin.customers.show', ['id' => $value->id]) }}" class="btn btn-info me-1">
+                                <i class="far fa-eye"></i>
+                            </a>
+                        
                             @if ($value->id !== auth()->id())
-                            <form action="{{ route('admin.customers.toggle-status', $value->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                @if ($value->status == 1)
-                                    <button type="submit" class="btn btn-danger">Khóa</button>
-                                @else
-                                    <button type="submit" class="btn btn-success">Mở khóa</button>
-                                @endif
-                            </form>
-                        @endif
+                                <form action="{{ route('admin.customers.toggle-status', $value->id) }}" method="POST" class="me-1">
+                                    @csrf
+                                    @method('PUT')
+                                    @if ($value->status == 1)
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-lock"></i>
+                                        </button>
+                                    @else
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-lock-open"></i>
+                                        </button>
+                                    @endif
+                                </form>
+                            @endif
+                        
+                            
+                        </div>
+                        
                     </td>
 
                 </tr>

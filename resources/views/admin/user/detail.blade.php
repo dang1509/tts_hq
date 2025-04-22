@@ -55,29 +55,33 @@
                 <!--begin::Tab-->
                 <div class="tab-pane show active px-7" id="kt_user_edit_tab_1" role="tabpanel" id="kt_user_edit_tab_1">
                     <!--begin::Row-->
+                    <form action="{{ route('admin.customers.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $user->id }}">
                     <div class="row">
                         <div class="col-xl-2"></div>
                         <div class="col-xl-7 my-2">
-
+                            
                             <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-form-label col-3 text-lg-right text-left">Avatar</label>
                                 <div class="col-9">
-                                    <div class="image-input image-input-empty image-input-outline"
+                                    <div class="image-input image-input-outline"
                                          id="kt_user_edit_avatar"
-                                         style="background-image: url('{{asset('assets/backend/themes/media/users/blank.png')}}')">
-                                        <div class="image-input-wrapper"></div>
+                                         style="background-image: url('{{ asset('storage/' . $user->avatar) ?? asset('assets/backend/themes/media/users/blank.png') }}')">
+                                         <img src="{{ asset($user->avatar) }}" alt="avatar" width="100">
+
                                         
-                                        <span
-                                            class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                                            data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
-                                                                        <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                                    </span>
-                                        <span
-                                            class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                                            data-action="remove" data-toggle="tooltip" title="Remove avatar">
-                                                                        <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                                    </span>
+                                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                               data-action="change" data-toggle="tooltip" title="Change avatar">
+                                            <i class="fa fa-pen icon-sm text-muted"></i>
+                                            <input type="file" name="avatar" accept=".png, .jpg, .jpeg"/>
+                                            <input type="hidden" name="avatar_remove"/>
+                                        </label>
+                                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                                              data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +129,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-3 text-lg-right text-left">{{__('Họ tên')}}</label>
                                 <div class="col-9">
-                                    <input class="form-control form-control-lg " type="text" readonly
+                                    <input class="form-control form-control-lg " type="text" name="fullname"
                                            value="{{$user->fullname}}"/>
                                 </div>
                             </div>
@@ -141,9 +145,13 @@
                             <!--end::Group-->
 
 
-
+                           
+                       
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-primary">Sửa thông tin</button>
+
+                </form>
                     <!--end::Row-->
                 </div>
                 <!--end::Tab-->

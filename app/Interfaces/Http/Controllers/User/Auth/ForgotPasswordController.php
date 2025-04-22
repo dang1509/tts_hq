@@ -58,36 +58,42 @@ class ForgotPasswordController extends Controller
         // $this->mailService->sendMail($email);
 
         // return view("user.auth.email-sent");
-        // 1. Kiểm tra người dùng
+        
         $email = $request->email;
         $user = User::where('email', $email)->first();
 
         if (!$user) {
             throw new \Exception("Email không tồn tại.");
         }
-
-        // 2. Sinh token và lưu vào bảng user_verification_tokens
         $token = Str::random(64);
 
         DB::table('user_verification_tokens')->updateOrInsert(
             ['user_id' => $user->id],
-            ['token' => $token, 'created_at' => now(), 'updated_at' => now()]
+            ['token' => $token, 'created_at' => now(), 'updated_at' => now(),'expires_at' => now()->addMinutes(1),]
         );
-
-        // 3. Tạo link gửi mail
         $url = route('user.reset.password.form', ['token' => $token, 'email' => $user->email]);
-
-        // 4. Gửi mail
         Mail::to($user->email)->send(new VerifyAccountMail($url));
-        return view('user.auth.sent-password');
+        return view('user.auth.email-sent');
     }
 
     public function showResetForm(Request $request)
     {
 
-        $email = $request->query('email');
-        $token = $request->query('token');
-
-        return view('user.auth.passwords.reset', compact('email', 'token'));
+        $token = $request->token;
+        $email = $request->email;
+    
+        $user = User::where('email', $email)->firstOrFail();
+    
+        $record = DB::table('user_verification_tokens')
+            ->where('user_id', $user->id)
+            ->where('token', $token)
+            ->first();
+    
+        if (!$record || now()->greaterThan($record->expires_at)) {
+            return redirect()->route('user.forgot.password.form')->withErrors(['token' => 'Liên kết đã hết hạn. Vui lòng thử lại.']);
+        }
+    
+        // Nếu hợp lệ thì hiển thị form reset password
+        return view('user.auth.passwords.reset', compact('token', 'email'));
     }
 }
